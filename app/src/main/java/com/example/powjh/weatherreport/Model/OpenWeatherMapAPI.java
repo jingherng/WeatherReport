@@ -1,6 +1,6 @@
 package com.example.powjh.weatherreport.Model;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Pow JH on 05-Sep-18.
@@ -10,7 +10,7 @@ public class OpenWeatherMapAPI {
     private Clouds clouds;
     private Coord coord;
     private Main main;
-    private List<Weather> weatherList;
+    private ArrayList<Weather> weather;
     private String base;
     private Rain rain;
     private int dt;
@@ -22,11 +22,11 @@ public class OpenWeatherMapAPI {
 
     }
 
-    public OpenWeatherMapAPI(Clouds clouds, Coord coord, Main main, List<Weather> weatherList, String base, Rain rain, int dt, Sys sys, String name, int cod) {
+    public OpenWeatherMapAPI(Clouds clouds, Coord coord, Main main, ArrayList<Weather> weather, String base, Rain rain, int dt, Sys sys, String name, int cod) {
         this.clouds = clouds;
         this.coord = coord;
         this.main = main;
-        this.weatherList = weatherList;
+        this.weather = weather;
         this.base = base;
         this.rain = rain;
         this.dt = dt;
@@ -59,12 +59,12 @@ public class OpenWeatherMapAPI {
         this.main = main;
     }
 
-    public List<Weather> getWeatherList() {
-        return weatherList;
+    public ArrayList<Weather> getWeather() {
+        return weather;
     }
 
-    public void setWeatherList(List<Weather> weatherList) {
-        this.weatherList = weatherList;
+    public void setWeather(ArrayList<Weather> weather) {
+        this.weather = weather;
     }
 
     public String getBase() {

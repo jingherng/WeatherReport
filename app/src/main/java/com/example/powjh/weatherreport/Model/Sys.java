@@ -7,15 +7,15 @@ package com.example.powjh.weatherreport.Model;
 public class Sys {
     private int type, id;
     private double message, sunrise, sunset;
-    private String ctry;
+    private String country;
 
-    public Sys(int type, int id, double message, double sunrise, double sunset, String ctry) {
+    public Sys(int type, int id, double message, double sunrise, double sunset, String country) {
         this.type = type;
         this.id = id;
         this.message = message;
         this.sunrise = sunrise;
         this.sunset = sunset;
-        this.ctry = ctry;
+        this.country = country;
     }
 
     public int getType() {
@@ -58,11 +58,11 @@ public class Sys {
         this.sunset = sunset;
     }
 
-    public String getCtry() {
-        return ctry;
+    public String getCountry() {
+        return country;
     }
 
-    public void setCtry(String ctry) {
-        this.ctry = ctry;
+    public void setCountry(String country) {
+        this.country = country;
     }
 }
