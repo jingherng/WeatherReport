@@ -27,10 +27,14 @@ import java.util.Calendar;
 public class MainActivity extends Activity{
 
     private final int REQUEST_SPEECH_RECOGNIZER = 100;
+
+    // Variables for layout
     TextView txtCity, txtLastUpdate, txtDescription, txtHumidity, txtTime, txtCelsius;
     ImageView imageView;
-    private ArrayList<String> mAnswer;
     ProgressBar progressBar;
+
+    // WeatherAPI variables
+    private ArrayList<String> mAnswer;
     static final String API_KEY = "13b407014e49c57f1de0a5aabb7e7a8b";
     static final String API_URL = "https://api.openweathermap.org/data/2.5/weather?q=";
 
@@ -84,7 +88,6 @@ public class MainActivity extends Activity{
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && data!= null){
             mAnswer = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            //mTextView.setText(mAnswer.get(0));
 
             new callWeather().execute();
         }
@@ -101,6 +104,8 @@ public class MainActivity extends Activity{
                 // URL for Weather
                 URL weatherURL = new URL(API_URL + mAnswer.get(0) + "&APPID=" + API_KEY);
                 Log.i("Full URL:", weatherURL.toString());
+
+                // Establish Web Connection
                 HttpURLConnection urlConnection = (HttpURLConnection) weatherURL.openConnection();
 
                 try{
@@ -125,41 +130,86 @@ public class MainActivity extends Activity{
 
         protected void onPostExecute(String response){
             if (response == null){
-                response = "";
+
+                // If city not found
+                txtLastUpdate.setText("City not found. Try again");
+                progressBar.setVisibility(View.GONE);
+
             }
-            progressBar.setVisibility(View.GONE);
-            Log.i("INFO",response);
-            Type type = new TypeToken<OpenWeatherMapAPI>(){}.getType();
+            else {
+                progressBar.setVisibility(View.GONE);
+                Log.i("INFO", response);
+                Type type = new TypeToken<OpenWeatherMapAPI>() {
+                }.getType();
 
-            OpenWeatherMapAPI api = new Gson().fromJson(response,type);
-
-            txtCity.setText(String.format("%s, %s", api.getName(), api.getSys().getCountry()));
-            txtLastUpdate.setText(String.format("Last Updated: %s", Calendar.getInstance().getTime()));
-            txtDescription.setText(String.format("%s", api.getWeather().get(0).getDescription()));
-            txtHumidity.setText(String.format("%d%%", api.getMain().getHumidity()));
-            txtCelsius.setText(String.format("%.1f °C", api.getMain().getTemp() - 273.15));
+                OpenWeatherMapAPI api = new Gson().fromJson(response, type);
 
 
-            String icon = api.getWeather().get(0).getIcon();
-            switch(icon){
-                case "01d":imageView.setImageResource(R.drawable.d01);break;
-                case "02d":imageView.setImageResource(R.drawable.d02); break;
-                case "03d":imageView.setImageResource(R.drawable.d03); break;
-                case "04d":imageView.setImageResource(R.drawable.d04); break;
-                case "09d":imageView.setImageResource(R.drawable.d09); break;
-                case "10d":imageView.setImageResource(R.drawable.d10); break;
-                case "11d":imageView.setImageResource(R.drawable.d11); break;
-                case "13d":imageView.setImageResource(R.drawable.d13); break;
-                case "50d":imageView.setImageResource(R.drawable.d50); break;
-                case "01n":imageView.setImageResource(R.drawable.n01); break;
-                case "02n":imageView.setImageResource(R.drawable.n02); break;
-                case "03n":imageView.setImageResource(R.drawable.n03); break;
-                case "04n":imageView.setImageResource(R.drawable.n04); break;
-                case "09n":imageView.setImageResource(R.drawable.n09); break;
-                case "10n":imageView.setImageResource(R.drawable.n10); break;
-                case "11n":imageView.setImageResource(R.drawable.n11); break;
-                case "13n":imageView.setImageResource(R.drawable.n13); break;
-                case "50n":imageView.setImageResource(R.drawable.d50); break;
+                // Set layout if city found
+                txtCity.setText(String.format("%s, %s", api.getName(), api.getSys().getCountry()));
+                txtLastUpdate.setText(String.format("Last Updated: %s", Calendar.getInstance().getTime()));
+                txtDescription.setText(String.format("%s", api.getWeather().get(0).getDescription()));
+                txtHumidity.setText(String.format("%d%%", api.getMain().getHumidity()));
+                txtCelsius.setText(String.format("%.1f °C", api.getMain().getTemp() - 273.15));
+
+
+                String icon = api.getWeather().get(0).getIcon();
+                switch (icon) {
+                    case "01d":
+                        imageView.setImageResource(R.drawable.d01);
+                        break;
+                    case "02d":
+                        imageView.setImageResource(R.drawable.d02);
+                        break;
+                    case "03d":
+                        imageView.setImageResource(R.drawable.d03);
+                        break;
+                    case "04d":
+                        imageView.setImageResource(R.drawable.d04);
+                        break;
+                    case "09d":
+                        imageView.setImageResource(R.drawable.d09);
+                        break;
+                    case "10d":
+                        imageView.setImageResource(R.drawable.d10);
+                        break;
+                    case "11d":
+                        imageView.setImageResource(R.drawable.d11);
+                        break;
+                    case "13d":
+                        imageView.setImageResource(R.drawable.d13);
+                        break;
+                    case "50d":
+                        imageView.setImageResource(R.drawable.d50);
+                        break;
+                    case "01n":
+                        imageView.setImageResource(R.drawable.n01);
+                        break;
+                    case "02n":
+                        imageView.setImageResource(R.drawable.n02);
+                        break;
+                    case "03n":
+                        imageView.setImageResource(R.drawable.n03);
+                        break;
+                    case "04n":
+                        imageView.setImageResource(R.drawable.n04);
+                        break;
+                    case "09n":
+                        imageView.setImageResource(R.drawable.n09);
+                        break;
+                    case "10n":
+                        imageView.setImageResource(R.drawable.n10);
+                        break;
+                    case "11n":
+                        imageView.setImageResource(R.drawable.n11);
+                        break;
+                    case "13n":
+                        imageView.setImageResource(R.drawable.n13);
+                        break;
+                    case "50n":
+                        imageView.setImageResource(R.drawable.d50);
+                        break;
+                }
             }
         }
     }
