@@ -4,23 +4,24 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.speech.SpeechRecognizer;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends Activity{
 
     private final int REQUEST_SPEECH_RECOGNIZER = 3000;
     private TextView mTextView;
-    private String mAnswer = "";
+    private ArrayList<String> mAnswer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mTextView = (TextView) findViewById(R.id.speechResult);
     }
 
     public void startVoice (View view){
@@ -55,8 +56,8 @@ public class MainActivity extends Activity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && data!= null){
-            mAnswer = data.getStringExtra(RecognizerIntent.EXTRA_RESULTS);
-            mTextView.setText(mAnswer);
+            mAnswer = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            mTextView.setText(mAnswer.toString());
         }
     }
 }
