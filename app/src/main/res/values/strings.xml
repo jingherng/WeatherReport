@@ -5,6 +5,6 @@
     <string-array name="Questions">
         <item>Where are you located at?</item>
         <item>Tell me your location</item>
-        <item>Where do you want your weather report at?</item>
+        <item>Where do you want your Weather report at?</item>
     </string-array>
 </resources>
