@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">WeatherReport</string>
+    <string name="tap_to_talk">Tap to Talk</string>
+
+    <string-array name="Questions">
+        <item>Where are you located at?</item>
+        <item>Tell me your location</item>
+        <item>Where do you want your weather report at?</item>
+    </string-array>
+</resources>
