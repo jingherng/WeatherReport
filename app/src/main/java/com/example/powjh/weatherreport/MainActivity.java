@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class MainActivity extends Activity{
 
@@ -32,6 +34,8 @@ public class MainActivity extends Activity{
     TextView txtCity, txtLastUpdate, txtDescription, txtHumidity, txtTime, txtCelsius;
     ImageView imageView;
     ProgressBar progressBar;
+    TextToSpeech TTS;
+    int TTSresult;
 
     // WeatherAPI variables
     private ArrayList<String> mAnswer;
@@ -129,6 +133,7 @@ public class MainActivity extends Activity{
         }
 
         protected void onPostExecute(String response){
+
             if (response == null){
 
                 // If city not found
@@ -210,6 +215,23 @@ public class MainActivity extends Activity{
                         imageView.setImageResource(R.drawable.d50);
                         break;
                 }
+
+                // TTS
+
+                final String speechText = "The weather at " + api.getName() + " is " + api.getWeather().get(0).getDescription() + " with temperatures of " + String.format("%.1f",api.getMain().getTemp() - 273.15) + " degrees Celsius.";
+
+                TTS = new TextToSpeech(MainActivity.this, new TextToSpeech.OnInitListener() {
+                    @Override
+                    public void onInit(int i) {
+                        if (i == TextToSpeech.SUCCESS){
+                            TTSresult = TTS.setLanguage(Locale.UK);
+                            TTS.speak(speechText, TextToSpeech.QUEUE_FLUSH, null);
+                        }
+                        else
+                            Toast.makeText(getApplicationContext(),"Feature not supported in your device",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
         }
     }
